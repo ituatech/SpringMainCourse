@@ -1,0 +1,28 @@
+**/.idea
+**.iml
+**/target
+
+# Mac
+.DS_Store
+  
+# Maven
+**/log/
+**/logs/
+**/target/
+
+#Gradle
+**/build/
+**/gradle/
+**/.gradle/
+
+#Video
+**/Video_spring_developer/
+
+#Dumps
+**/dumps
+
+#Logs
+**/.log
+
+#pdf
+**/.pdf
