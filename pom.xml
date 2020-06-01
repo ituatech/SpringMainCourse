@@ -22,7 +22,8 @@
     </properties>
 
     <modules>
-        <module>HomeWork/Spring_framework_01_XML_config</module>
+        <module>Course/Spring_framework_01_XML_config</module>
+        <module>Course/Spring_framework_02_java_annotation_config</module>
     </modules>
 
     <dependencies>
