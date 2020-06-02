@@ -24,6 +24,7 @@
     <modules>
         <module>Course/Spring_framework_01_XML_config</module>
         <module>Course/Spring_framework_02_java_annotation_config</module>
+        <module>Course/Spring_framework_03_AOP_AspectJ</module>
     </modules>
 
     <dependencies>
