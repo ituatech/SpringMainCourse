@@ -1,0 +1,6 @@
+server:
+  port: 8099
+application:
+  version: 1.0
+  active: true
+
