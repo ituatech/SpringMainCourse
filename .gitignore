@@ -19,9 +19,8 @@
 **/log/
 **/logs/
 **/target/
-**/mvnw
-**/mvnw.cmd
-.mvn/
+**/!.mvn/wrapper/maven-wrapper.jar
+
 
 #Gradle
 **/build/
