@@ -2,7 +2,6 @@
 **.iml
 **/target
 **/HELP.md
-**/.mvn/
 
 # Mac
 .DS_Store
@@ -22,6 +21,7 @@
 **/target/
 **/mvnw
 **/mvnw.cmd
+.mvn/
 
 #Gradle
 **/build/
@@ -49,3 +49,4 @@
 
 #pdf
 **/.pdf
+/Course/Spring_framework_05_advanced_configuration/.mvn/
