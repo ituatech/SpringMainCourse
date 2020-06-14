@@ -21,7 +21,7 @@ logging:
   level:
     root: WARN
 
-life-cycle-demo-enabled: false
+life-cycle-demo-enabled: true
 
 ---
 spring:
