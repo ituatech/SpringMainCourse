@@ -2,7 +2,7 @@
 **.iml
 **/target
 **/HELP.md
-**/!.mvn/wrapper/maven-wrapper.jar
+**/.mvn/
 
 # Mac
 .DS_Store
@@ -20,6 +20,8 @@
 **/log/
 **/logs/
 **/target/
+**/mvnw
+**/mvnw.cmd
 
 #Gradle
 **/build/
@@ -32,7 +34,6 @@
 **/dist/
 **/nbdist/
 **/.nb-gradle/
-**/build/
 
 ### VS Code ###
 .vscode/
