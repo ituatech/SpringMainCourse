@@ -25,6 +25,12 @@
         <module>Course/Spring_framework_01_XML_config</module>
         <module>Course/Spring_framework_02_java_annotation_config</module>
         <module>Course/Spring_framework_03_AOP_AspectJ</module>
+        <module>Course/Spring_framework_04_spring_boot</module>
+        <module>Course/Spring_framework_05_advanced_configuration</module>
+
+        <module>HomeWork/Spring_homework_01_xml</module>
+        <module>HomeWork/Spring_homework_02_Local_annotation</module>
+        <module>HomeWork/Spring_homework_04_Spring_Boot</module>
     </modules>
 
     <dependencies>

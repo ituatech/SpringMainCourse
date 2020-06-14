@@ -1,10 +1,21 @@
 **/.idea
 **.iml
 **/target
+**/HELP.md
+**/!.mvn/wrapper/maven-wrapper.jar
 
 # Mac
 .DS_Store
-  
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
 # Maven
 **/log/
 **/logs/
@@ -14,6 +25,17 @@
 **/build/
 **/gradle/
 **/.gradle/
+
+### NetBeans ###
+**/nbproject/private/
+**/nbbuild/
+**/dist/
+**/nbdist/
+**/.nb-gradle/
+**/build/
+
+### VS Code ###
+.vscode/
 
 #Video
 **/Video_spring_developer/
