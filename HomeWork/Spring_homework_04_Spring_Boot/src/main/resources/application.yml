@@ -1,0 +1,4 @@
+application:
+  csv-file-path: en:/student-test-template/Test_EN.csv;de:/student-test-template/Test_DE.csv;ru:/student-test-template/Test_RU.csv
+result:
+  good-persent: 0.7
