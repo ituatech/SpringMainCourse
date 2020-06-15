@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Import;
 
 @Configuration
 @ComponentScan("com.it_uatech.dao_csv")
-@Import(com.it_uatech.services.config.ConfigServices.class)
+@Import(com.it_uatech.config.ConfigServices.class)
 
 public class Main {
     public static void main(String[] args){

@@ -1,64 +1,49 @@
 package com.it_uatech.dao_csv;
 
 import com.it_uatech.domain.Questions;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.DependsOn;
+import com.it_uatech.services.MyLocale;
+import com.it_uatech.services.ReadFile;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Repository;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Properties;
+import java.util.Locale;
 
-@DependsOn("UserLocation")
 @Repository
-@PropertySource("classpath:test.properties")
+@PropertySource("classpath:application.properties")
 public class ReadFileImpl implements ReadFile {
 
-    private String filePath;
-    private String propFile;
+    private MyLocale locale;
 
-
-    public ReadFileImpl(@Value("${propFile}") String propFile) {
-        try {
-            Properties prop = new Properties();
-            InputStreamReader in = new InputStreamReader(this.getClass().getResourceAsStream(propFile));
-            prop.load(in);
-            // get the properties value
-            this.filePath=prop.getProperty("file.path");
-            this.propFile=propFile;
-            in.close();
-        }catch (IOException ex){ex.printStackTrace();}
+    @Autowired
+    public ReadFileImpl(MyLocale locale) {
+        this.locale = locale;
     }
 
-
     public List<Questions> getQuestionList() {
-        List<Questions> list = null;
-        BufferedReader fileReader;
-        try {
-            fileReader = new BufferedReader(new InputStreamReader(this.getClass().getResourceAsStream(filePath), StandardCharsets.UTF_8));
-            String line;
-            list = new ArrayList<>();
-            while ((line = fileReader.readLine()) != null) {
+        List<Questions> list = new ArrayList<>();
+        try (BufferedReader fileReader = new BufferedReader(new InputStreamReader(this.getClass().getResourceAsStream(this.locale.getFilePathWithTest()), StandardCharsets.UTF_8))) {
+            String line = fileReader.readLine();
+            while (line != null){
                 String[] testLine = line.split(";");
-                list.add(new Questions(testLine[0], new String[]{testLine[1], testLine[2], testLine[3]}));
+                list.add(new Questions(testLine[0], Arrays.copyOfRange(testLine,1,testLine.length-1),testLine[testLine.length-1]));
+                line = fileReader.readLine();
             }
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
+        }catch (IOException e){
             e.printStackTrace();
         }
         return list;
     }
 
-    public String getPropFile() {
-        return propFile;
-    }
-
-    public String getFilePath() {
-        return filePath;
+    @Override
+    public MyLocale getMyLocale() {
+        return locale;
     }
 }

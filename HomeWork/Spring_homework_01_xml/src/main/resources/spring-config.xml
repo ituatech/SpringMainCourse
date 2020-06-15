@@ -3,11 +3,11 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="ReadFile" class="com.it_uatech.dao_csv.ReadFileImpl">
+    <bean id="readFile" class="com.it_uatech.dao_csv.ReadFileImpl">
         <constructor-arg name="fileName" value="/Test.csv"></constructor-arg>
     </bean>
 
-    <bean id="StudentTest" class="com.it_uatech.services.StudentTest">
-        <constructor-arg name="readFile" ref="ReadFile"></constructor-arg>
+    <bean id="studentTest" class="com.it_uatech.services.StudentTest">
+        <constructor-arg name="questions" ref="readFile"></constructor-arg>
     </bean>
 </beans>

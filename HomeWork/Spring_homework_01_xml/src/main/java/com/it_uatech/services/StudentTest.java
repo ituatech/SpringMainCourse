@@ -1,6 +1,5 @@
 package com.it_uatech.services;
 
-import com.it_uatech.dao_csv.ReadFile;
 import com.it_uatech.entities.Questions;
 
 import java.util.List;
@@ -8,36 +7,39 @@ import java.util.Scanner;
 
 public class StudentTest {
 
-    private final ReadFile readFile;
+    private final ReadFile questions;
 
-    public StudentTest(ReadFile readFile){
-        this.readFile = readFile;
+    public StudentTest(ReadFile questions){
+        this.questions = questions;
     }
 
     public void startTest(){
-        int count = 0;
-        String name;
-        String Surname;
+        StringBuilder builder = new StringBuilder();
         Scanner in = new Scanner(System.in);
-        System.out.println("Enter your name:");
-        name = in.next();
-        System.out.println("Enter your name:");
-        Surname = in.next();
-        System.out.println("OK, "+name+" "+Surname+", let start a test!");
-        List<Questions> testList = readFile.getQuestionList();
-        int countQue = 0;
+        System.out.println("Enter your first name:");
+        builder.append(in.next());
+        builder.append(" ");
+        System.out.println("Enter your second name:");
+        builder.append(in.next());
+        System.out.println("OK, "+builder.toString()+", let start a test!");
+
+        List<Questions> testList = questions.getQuestionList();
+        int questionCount = 0;
+        int rightAnswerCount = 0;
         for(Questions qTest:testList){
-            countQue++;
-            String answer;
             String[] answerList = qTest.getAnswer();
-            System.out.println(countQue+") " +qTest.getQuestion());
-            for (int i=0;i<(answerList.length-1);i++) {
-                System.out.println("- " + answerList[i]);
+            System.out.println(++questionCount+") " +qTest.getQuestion());
+
+            for (String answerSuppose : answerList) {
+                System.out.println("- " + answerSuppose);
             }
+
             System.out.println("Choose an answer: ");
-            answer = in.next();
-            if (answer.equalsIgnoreCase(answerList[answerList.length-1])){count++;}
+            String answer = in.next();
+            if (answer.equalsIgnoreCase(qTest.getRightAnswer())){
+                rightAnswerCount++;
+            }
         }
-        System.out.println("Dear, " +name+" "+Surname+", You have "+count+" right answers from "+testList.size());
+        System.out.println("Dear, " +builder.toString()+", You have "+rightAnswerCount+" right answers from "+testList.size());
     }
 }

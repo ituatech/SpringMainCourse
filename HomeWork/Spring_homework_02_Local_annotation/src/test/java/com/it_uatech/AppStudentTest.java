@@ -1,14 +1,15 @@
 package com.it_uatech;
 
 import com.it_uatech.dao_csv.ReadFileImpl;
-import com.it_uatech.services.MyLocaleImpl;
+import com.it_uatech.locale.MyLocaleImpl;
 import com.it_uatech.services.StudentTest;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.PropertySource;
+
+import static org.junit.Assert.*;
 
 @PropertySource("classpath:test.properties")
 public class AppStudentTest {
@@ -18,7 +19,7 @@ public class AppStudentTest {
     private StudentTest studentTest;
 
     @Before
-    public void init(){
+    public void setUp(){
         context = new AnnotationConfigApplicationContext(AppStudentTestConfig.class);
         csvReader = context.getBean(ReadFileImpl.class);
         locale = context.getBean(MyLocaleImpl.class);
@@ -34,22 +35,21 @@ public class AppStudentTest {
     }
 
     @Test
-    public void testLocale(){
-        Assert.assertEquals(locale.getPropFile(), "/aplication.properties");
+    public void questionListIsNotEmpty() {
+        assertFalse(csvReader.getQuestionList().isEmpty());
     }
 
     @Test
-    public void testCsvReader(){
-        Assert.assertEquals(csvReader.getPropFile(), "/aplication.properties");
-        Assert.assertEquals(csvReader.getFilePath(), "/student-test-template/Test_DE.csv");
+    public void localeIsAvailable() {
+        assertEquals("de", csvReader.getMyLocale().getLocale().getLanguage());
+        assertEquals("/student-test-template/Test_DE.csv", csvReader.getMyLocale().getFilePathWithTest());
     }
 
     @Test
     public void testStudentTest(){
-        Assert.assertNotNull(studentTest.getMessage());
-        Assert.assertNotNull(studentTest.getLocale());
-        Assert.assertNotNull(studentTest.getReadFile());
-        Assert.assertEquals(studentTest.getTestRes(), 0.5, 0);
+        assertNotNull(studentTest.getMessage());
+        assertNotNull(studentTest.getQuestions());
+        assertEquals(studentTest.getTestGoodResult(), 0.5, 0);
     }
 
 }

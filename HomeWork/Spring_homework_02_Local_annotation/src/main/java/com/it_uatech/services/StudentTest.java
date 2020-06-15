@@ -1,8 +1,6 @@
 package com.it_uatech.services;
 
-import com.it_uatech.dao_csv.ReadFile;
 import com.it_uatech.domain.Questions;
-import com.it_uatech.services.config.ConfigServices;
 import org.springframework.context.MessageSource;
 
 import java.util.List;
@@ -11,66 +9,65 @@ import java.util.Scanner;
 
 public class StudentTest {
 
-    private final ReadFile readFile;
+    private final ReadFile questions;
     private final MessageSource message;
-    private final java.util.Locale locale;
-    private double testRes;
+    private final MyScanner scanner;
+    private double testGoodResult;
 
-    public StudentTest(ReadFile readFile,MessageSource message,java.util.Locale locale,double testRes){
-        this.readFile = readFile;
+    public StudentTest(ReadFile questions, MessageSource message, MyScanner scanner, double testGoodResult) {
+        this.questions = questions;
         this.message = message;
-        this.locale = locale;
-        this.testRes = testRes;
+        this.scanner = scanner;
+        this.testGoodResult = testGoodResult;
     }
 
-    public void startTest(){
-        int count = 0;
-        String name;
-        String surname;
-            Scanner in = ConfigServices.SCANNER;
+    public void startTest() {
+        StringBuilder builder = new StringBuilder();
+        Scanner in = scanner.getScanner();
+        Locale locale = questions.getMyLocale().getLocale();
 
-            System.out.println(message.getMessage("user.name", null, locale));
-            name = in.next();
-            System.out.println(message.getMessage("user.surname", null, locale));
-            surname = in.next();
-            System.out.println(message.getMessage("test.start", new String[]{name, surname}, locale));
-            List<Questions> testList = readFile.getQuestionList();
-            int countQue = 0;
-            for (Questions qTest : testList) {
-                countQue++;
-                String answer;
-                String[] answerList = qTest.getAnswer();
-                System.out.println(countQue + ") " + qTest.getQuestion());
-                for (int i = 0; i < (answerList.length - 1); i++) {
-                    System.out.println("- " + answerList[i]);
-                }
-                System.out.println(message.getMessage("answer.choise", null, locale));
-                answer = in.next();
-                if (answer.equalsIgnoreCase(answerList[answerList.length - 1])) {
-                    count++;
-                }
+        System.out.println(message.getMessage("user.name", null, locale));
+        builder.append(in.next());
+        builder.append(" ");
+        System.out.println(message.getMessage("user.surname", null, locale));
+        builder.append(in.next());
+        System.out.println(message.getMessage("test.start", new String[]{builder.toString()}, locale));
+
+        List<Questions> testList = questions.getQuestionList();
+        int questionCount = 0;
+        int rightAnswerCount = 0;
+        for(Questions qTest:testList){
+            String[] answerList = qTest.getAnswer();
+            System.out.println(++questionCount+") " +qTest.getQuestion());
+
+            for (String answerSuppose : answerList) {
+                System.out.println("- " + answerSuppose);
             }
-            System.out.println(message.getMessage("user.result", new Object[]{name, surname, count, testList.size()}, locale));
-            if ((count/testList.size())>testRes){
-                System.out.println(message.getMessage("user.resultGood", null, locale));
-            }else{
-                System.out.println(message.getMessage("user.resultBad", null, locale));
+
+            System.out.println(message.getMessage("answer.choice", null, locale));
+            String answer = in.next();
+            if (answer.equalsIgnoreCase(qTest.getRightAnswer())){
+                rightAnswerCount++;
             }
+        }
+
+        System.out.println(message.getMessage("user.result", new Object[]{builder.toString(), rightAnswerCount, testList.size()}, locale));
+        if ((double)(rightAnswerCount / testList.size()) > testGoodResult) {
+            System.out.println(message.getMessage("user.resultGood", null, locale));
+        } else {
+            System.out.println(message.getMessage("user.resultBad", null, locale));
+        }
     }
 
-    public double getTestRes() {
-        return testRes;
-    }
-
-    public Locale getLocale() {
-        return locale;
+    public ReadFile getQuestions() {
+        return questions;
     }
 
     public MessageSource getMessage() {
         return message;
     }
 
-    public ReadFile getReadFile() {
-        return readFile;
+    public double getTestGoodResult() {
+        return testGoodResult;
     }
 }

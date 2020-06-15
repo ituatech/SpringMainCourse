@@ -1,9 +1,11 @@
 package com.it_uatech;
 
 
-import com.it_uatech.dao_csv.ReadFile;
+import com.it_uatech.services.MyLocale;
+import com.it_uatech.services.MyScanner;
+import com.it_uatech.services.ReadFile;
 import com.it_uatech.dao_csv.ReadFileImpl;
-import com.it_uatech.services.MyLocaleImpl;
+import com.it_uatech.locale.MyLocaleImpl;
 import com.it_uatech.services.StudentTest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
@@ -16,24 +18,24 @@ import org.springframework.context.support.ReloadableResourceBundleMessageSource
 @PropertySource("classpath:test.properties")
 public class AppStudentTestConfig {
 
-    @Bean("locale")
-    java.util.Locale getLocale(@Value("${propFile}")String propFile){
-        return new MyLocaleImpl(propFile).buildLocate("de","/student-test-template/Test_DE.csv");
+    @Bean
+    public MyScanner getScanner() {
+        return new MyScanner();
     }
 
     @Bean
-    MyLocaleImpl getLocaleImpl(@Value("${propFile}")String propFile){
-        return new MyLocaleImpl(propFile);
+    public MyLocale getMyLocale(){
+        return new MyLocaleImpl("/student-test-template/Test_DE.csv", "de");
     }
 
     @Bean
-    ReadFile getCsvReader(@Value("${propFile}")String propFile){
-        return new ReadFileImpl(propFile);
+    ReadFile getCsvReader(MyLocale locale){
+        return new ReadFileImpl(locale);
     }
 
     @Bean
-    StudentTest getStudentTest(ReadFile csvReader, MessageSource messageSource, java.util.Locale locale, @Value("${test.goodResult}")double goodPercent){
-        return new StudentTest(csvReader, messageSource, locale, goodPercent);
+    StudentTest getStudentTest(ReadFile csvReader, MessageSource messageSource, MyScanner scanner, @Value("${test.goodResult}")double goodPercent){
+        return new StudentTest(csvReader, messageSource, scanner, goodPercent);
     }
 
     @Bean
