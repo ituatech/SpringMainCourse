@@ -1,99 +1,88 @@
 package com.it_uatech.services;
 
-import com.it_uatech.config.AppConfig;
-import com.it_uatech.dao_csv.ReadFile;
+import com.it_uatech.config.PropertyResult;
 import com.it_uatech.domain.Questions;
 import org.springframework.context.MessageSource;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Scanner;
 
 public class StudentTest {
 
-    private final ReadFile readFile;
+    private final ReadFile questions;
     private final MessageSource message;
-    private final Locale localeImpl;
-    private final AppConfig appConfig;
+    private double testGoodResult;
 
-    public StudentTest(ReadFile readFile, MessageSource message, Locale localeImpl, AppConfig appConfig){
-        this.readFile = readFile;
+    public StudentTest(ReadFile questions, MessageSource message, PropertyResult propertyResult) {
+        this.questions = questions;
         this.message = message;
-        this.localeImpl = localeImpl;
-        this.appConfig = appConfig;
+        this.testGoodResult = propertyResult.getGoodPercent();
     }
 
-    public AppConfig getAppConfig() {
-        return appConfig;
+    public void startTest() {
+        int rightAnswerCount;
+        try (Scanner in = new Scanner(System.in)) {
+            StringBuilder builder = new StringBuilder();
+            Locale locale = localeBuilder(in);
+
+            System.out.println(message.getMessage("user.name", null, locale));
+            builder.append(in.next());
+            builder.append(" ");
+            System.out.println(message.getMessage("user.surname", null, locale));
+            builder.append(in.next());
+            System.out.println(message.getMessage("test.start", new String[]{builder.toString()}, locale));
+
+            List<Questions> testList = questions.getQuestionList(locale);
+            int questionCount = 0;
+            rightAnswerCount = 0;
+            for (Questions qTest : testList) {
+                String[] answerList = qTest.getAnswer();
+                System.out.println(++questionCount + ") " + qTest.getQuestion());
+
+                for (String answerSuppose : answerList) {
+                    System.out.println("- " + answerSuppose);
+                }
+
+                System.out.println(message.getMessage("answer.choice", null, locale));
+                String answer = in.next();
+                if (answer.equalsIgnoreCase(qTest.getRightAnswer())) {
+                    rightAnswerCount++;
+                }
+            }
+
+            System.out.println(message.getMessage("user.result", new Object[]{builder.toString(), rightAnswerCount, testList.size()}, locale));
+            if ((double) (rightAnswerCount / testList.size()) > testGoodResult) {
+                System.out.println(message.getMessage("user.resultGood", null, locale));
+            } else {
+                System.out.println(message.getMessage("user.resultBad", null, locale));
+            }
+        }
     }
 
-    public Locale getLocale() {
-        return localeImpl;
+    private Locale localeBuilder(Scanner in) {
+        System.out.println("Enter you language: en");
+        System.out.println("Schreiben Sie bitte Ihre Sprache: de");
+        System.out.println("Введите ваш язык: ru");
+        String selectedLanguage = in.next();
+
+        if (!selectedLanguage.equalsIgnoreCase("en") &&
+                !selectedLanguage.equalsIgnoreCase("de") &&
+                !selectedLanguage.equalsIgnoreCase("ru")) {
+            selectedLanguage = "en";
+        }
+        return new Locale.Builder().setLanguage(selectedLanguage).build();
+    }
+
+    public ReadFile getQuestions() {
+        return questions;
     }
 
     public MessageSource getMessage() {
         return message;
     }
 
-    public ReadFile getReadFile() {
-        return readFile;
+    public double getTestGoodResult() {
+        return testGoodResult;
     }
-
-    public void startTest() {
-        java.util.Locale locale = null;
-        StringBuilder name = new StringBuilder();
-        String toStringName = null;
-        try(Scanner in = new Scanner(System.in)) {
-            String language = localeBuilder(in);
-            locale = localeImpl.buildLocate(language);
-            System.out.println(message.getMessage("user.name", null, locale));
-            name.append(in.next());
-            name.append(" ");
-            System.out.println(message.getMessage("user.surname", null, locale));
-            name.append(in.next());
-            toStringName = name.toString();
-            System.out.println(message.getMessage("test.start", new String[]{toStringName}, locale));
-
-            List<Questions> testList = readFile.getQuestionList(locale);
-            int count = 0;
-            int countQue = 0;
-            for (Questions qTest : testList) {
-                countQue++;
-                String answer;
-                String[] answerList = qTest.getAnswer();
-                System.out.println(countQue + ") " + qTest.getQuestion());
-                for (int i = 0; i < (answerList.length - 1); i++) {
-                    System.out.println("- " + answerList[i]);
-                }
-                System.out.println(message.getMessage("answer.choise", null, locale));
-                answer = in.next();
-                if (answer.equalsIgnoreCase(answerList[answerList.length - 1])) {
-                    count++;
-                }
-            }
-            System.out.println(message.getMessage("user.result", new Object[]{toStringName, count, testList.size()}, locale));
-            if ((count / testList.size()) > appConfig.getGoodPersent()) {
-                System.out.println(message.getMessage("user.resultGood", null, locale));
-            } else {
-                System.out.println(message.getMessage("user.resultBad", null, locale));
-            }
-        }catch (Exception ex){ex.printStackTrace();}
-    }
-
-    private String localeBuilder(Scanner in){
-        System.out.println("Enter you language: en");
-        System.out.println("Schreiben Sie bitte Ihre Sprache: de");
-        System.out.println("Введите ваш язык: ru");
-        String lang = in.next();
-
-        if (lang.equalsIgnoreCase("en")) {
-            return "en";
-        } else if (lang.equalsIgnoreCase("de")) {
-            return "de";
-        } else if (lang.equalsIgnoreCase("ru")) {
-            return "ru";
-        } else {
-            return "en";
-        }
-    }
-
 }

@@ -4,6 +4,4 @@ application:
     de: /student-test-template/Test_DE.csv
     ru: /student-test-template/Test_RU.csv
 result:
-  good-percent: 0.8
-
-  # csv-file-path: en:/student-test-template/Test_EN.csv;de:/student-test-template/Test_DE.csv;ru:/student-test-template/Test_RU.csv
+  good-percent: 0.5

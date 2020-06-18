@@ -31,6 +31,7 @@
         <module>HomeWork/Spring_homework_01_xml</module>
         <module>HomeWork/Spring_homework_02_Local_annotation</module>
         <module>HomeWork/Spring_homework_04_Spring_Boot</module>
+        <module>HomeWork/Spring_homework_05_Spring_Boot_Spring_Shell</module>
     </modules>
 
     <dependencies>
