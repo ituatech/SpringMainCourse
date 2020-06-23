@@ -27,6 +27,7 @@
         <module>Course/Spring_framework_03_AOP_AspectJ</module>
         <module>Course/Spring_framework_04_spring_boot</module>
         <module>Course/Spring_framework_05_advanced_configuration</module>
+        <module>Course/Spring_framework_06_spring_JDBC</module>
 
         <module>HomeWork/Spring_homework_01_xml</module>
         <module>HomeWork/Spring_homework_02_Local_annotation</module>
