@@ -28,12 +28,16 @@
         <module>Course/Spring_framework_04_spring_boot</module>
         <module>Course/Spring_framework_05_advanced_configuration</module>
         <module>Course/Spring_framework_06_spring_JDBC</module>
+        <module>Course/Spring_framework_07_spring_orm_jpa</module>
+        <module>Course/Spring_framework_08_jpql_orm_jpa</module>
+        <module>Course/Spring_framework_10_spring_data_jpa_crud</module>
 
         <module>HomeWork/Spring_homework_01_xml</module>
         <module>HomeWork/Spring_homework_02_Local_annotation</module>
         <module>HomeWork/Spring_homework_04_Spring_Boot</module>
         <module>HomeWork/Spring_homework_05_Spring_Boot_Spring_Shell</module>
         <module>HomeWork/Spring_homework_06_Spring_JDBC</module>
+        <module>HomeWork/Spring_homework_08_Spring_JPA</module>
     </modules>
 
     <dependencies>
